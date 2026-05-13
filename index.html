@@ -3,201 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feeling Admin - Input Penjualan</title>
+    <title>Feeling Admin - Full Input</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <style>
-        body { background-color: #f4f4f4; padding: 10px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding-bottom: 80px; }
-        .form-section { background: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .section-title { border-bottom: 2px solid #3273dc; margin-bottom: 15px; padding-bottom: 5px; color: #363636; font-weight: bold; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
-        .menu-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 8px; align-items: center; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #f0f0f0; }
-        .sticky-footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 12px; border-top: 1px solid #ddd; z-index: 100; }
-        label.is-small { font-size: 0.7rem; color: #7a7a7a; text-transform: uppercase; }
-        .header-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 8px; font-weight: bold; font-size: 0.65rem; color: #999; margin-bottom: 5px; }
+        body { background-color: #f0f2f5; padding: 10px; padding-bottom: 90px; }
+        .form-section { background: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid #3273dc; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .section-title { font-weight: bold; font-size: 0.8rem; margin-bottom: 10px; color: #3273dc; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .grid-header { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 5px; font-size: 0.6rem; font-weight: bold; text-align: center; color: #888; }
+        .grid-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 5px; align-items: center; margin-bottom: 8px; }
+        .sticky-footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; border-top: 1px solid #ddd; z-index: 100; }
+        input.is-small { padding: 5px; font-size: 0.75rem; }
     </style>
 </head>
 <body>
 
-    <h1 class="title is-5 has-text-centered mb-4">FEELING DAILY REPORT</h1>
+    <h1 class="title is-5 has-text-centered">FEELING DAILY SYSTEM</h1>
 
-    <form id="feelingForm">
-        <!-- 1. INFO OPERASIONAL -->
+    <form id="mainForm">
+        <!-- OPERASIONAL (Dinamis sesuai perbaikan sebelumnya) -->
         <div class="form-section">
-            <p class="section-title">Info Operasional</p>
+            <p class="section-title">INFO OPERASIONAL</p>
             <div class="columns is-mobile is-multiline">
-                <div class="column is-6">
-                    <label class="label is-small">Regional</label>
-                    <div class="select is-fullwidth is-small">
-                        <select id="regional" name="regional" onchange="updateStation()" required>
-                            <option value="">Pilih...</option>
-                            <option value="Banjarbaru">Banjarbaru</option>
-                            <option value="Banjarmasin">Banjarmasin</option>
-                            <option value="Martapura">Martapura</option>
-                        </select>
-                    </div>
+                <div class="column is-6"><label class="label is-size-7">Regional</label>
+                    <div class="select is-fullwidth is-small"><select id="reg" onchange="updateSt()"><option>Pilih...</option><option>Banjarbaru</option><option>Banjarmasin</option><option>Martapura</option></select></div>
                 </div>
-                <div class="column is-6">
-                    <label class="label is-small">Station</label>
-                    <div class="select is-fullwidth is-small">
-                        <select id="station" name="station" required>
-                            <option value="">- Pilih Regional -</option>
-                        </select>
-                    </div>
+                <div class="column is-6"><label class="label is-size-7">Station</label>
+                    <div class="select is-fullwidth is-small"><select id="st"><option>-</option></select></div>
                 </div>
-                <div class="column is-6">
-                    <label class="label is-small">Nama Pilot</label>
-                    <input class="input is-small" type="text" name="pilot" placeholder="..." required>
-                </div>
-                <div class="column is-6">
-                    <label class="label is-small">Staff Office</label>
-                    <input class="input is-small" type="text" name="office" placeholder="..." required>
-                </div>
-                <div class="column is-6">
-                    <label class="label is-small">Shift</label>
-                    <div class="select is-fullwidth is-small">
-                        <select name="shift">
-                            <option>Shift 1</option>
-                            <option>Shift 2</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="column is-6">
-                    <label class="label is-small">Kategori Input</label>
-                    <div class="select is-fullwidth is-small">
-                        <select id="kategori" name="kategori" onchange="toggleSections()">
-                            <option value="CEK IN">CEK IN</option>
-                            <option value="SD-1">SD-1</option>
-                            <option value="SD-2">SD-2</option>
-                            <option value="SD-3">SD-3</option>
-                            <option value="CEK OUT">CEK OUT</option>
-                        </select>
-                    </div>
+                <div class="column is-4"><label class="label is-size-7">Pilot</label><input class="input is-small" type="text" placeholder="Nama"></div>
+                <div class="column is-4"><label class="label is-size-7">Office</label><input class="input is-small" type="text" placeholder="Nama"></div>
+                <div class="column is-4"><label class="label is-size-7">Kategori</label>
+                    <div class="select is-fullwidth is-small"><select id="kat" onchange="toggleSec()"><option>CEK IN</option><option>SD-1</option><option>SD-2</option><option>SD-3</option><option>CEK OUT</option></select></div>
                 </div>
             </div>
         </div>
 
-        <!-- 2. DATA PENJUALAN (Hanya muncul saat CEK OUT) -->
-        <div id="section-sales" class="form-section">
-            <p class="section-title">Penjualan Menu [A]</p>
-            <div class="header-grid">
-                <div>MENU NAME</div><div>CASH</div><div>QRIS</div>
+        <!-- SUB LAPORAN PENJUALAN PILOT [A] (image_566675.png) -->
+        <div id="sec-a" class="form-section">
+            <p class="section-title">PENJUALAN PILOT [A]</p>
+            <div class="grid-header"><div>MENU</div><div>CUP CS</div><div>CUP QR</div><div>TML CS</div><div>TML QR</div></div>
+            <hr style="margin: 5px 0;">
+            <div id="menu-list">
+                <!-- Menu akan di-generate via JS -->
             </div>
             
-            <!-- Daftar Menu Lengkap -->
-            <div id="menu-container">
-                <script>
-                    const menus = ["OUR FEELING", "BE CAREFEELS", "HAPPY FEALS", "CHOCOFEELS", "GREENFEELS", "RED DEVEELS", "PEACE FUELS", "RUSHFEELS", "NUTFEELS", "VANFEELS", "MOCCAFEELS", "BLACKFEELS"];
-                    menus.forEach(m => {
-                        document.write(`
-                            <div class="menu-grid">
-                                <div style="font-size: 0.75rem; font-weight: 500;">${m}</div>
-                                <input class="input is-small" type="number" name="sales_cash_${m.replace(/ /g,'_')}" placeholder="0">
-                                <input class="input is-small" type="number" name="sales_qris_${m.replace(/ /g,'_')}" placeholder="0">
-                            </div>
-                        `);
-                    });
-                </script>
+            <p class="is-size-7 mt-3"><strong>ADD ON & PENGELUARAN</strong></p>
+            <div class="columns is-mobile is-multiline mt-1">
+                <div class="column is-4"><input class="input is-small" type="number" placeholder="Espr A"></div>
+                <div class="column is-4"><input class="input is-small" type="number" placeholder="Espr B"></div>
+                <div class="column is-4"><input class="input is-small" type="number" placeholder="Cup+Ice"></div>
+                <div class="column is-6"><input class="input is-small" type="text" placeholder="Item Keluar"></div>
+                <div class="column is-6"><input class="input is-small" type="number" placeholder="Nominal Out"></div>
             </div>
         </div>
 
-        <!-- 3. BAHAN BAKU & CUP [B] -->
-        <div class="form-section">
-            <p class="section-title">Stok & Bahan Baku [B]</p>
+        <!-- SUB LAPORAN BAHAN BAKU & CUP [B] (image_566650.png) -->
+        <div id="sec-b" class="form-section">
+            <p class="section-title">BAHAN BAKU & STOCK [B]</p>
             <div class="columns is-mobile is-multiline">
-                <div class="column is-6">
-                    <label class="label is-small">M-GE (Gram)</label>
-                    <input class="input is-small" type="number" name="stok_mge" placeholder="0">
-                </div>
-                <div class="column is-6">
-                    <label class="label is-small">M-AR (Gram)</label>
-                    <input class="input is-small" type="number" name="stok_mar" placeholder="0">
-                </div>
-                <div class="column is-6">
-                    <label class="label is-small">M-CO (Gram)</label>
-                    <input class="input is-small" type="number" name="stok_mco" placeholder="0">
-                </div>
-                <div class="column is-6">
-                    <label class="label is-small">ESPRESSO (mL)</label>
-                    <input class="input is-small" type="number" name="stok_spro" placeholder="0">
-                </div>
-                <div class="column is-4">
-                    <label class="label is-small">Cup IN/OT</label>
-                    <input class="input is-small" type="number" name="cup_qty" placeholder="0">
-                </div>
-                <div class="column is-4">
-                    <label class="label is-small">Cup Kembali</label>
-                    <input class="input is-small" type="number" name="cup_back" placeholder="0">
-                </div>
-                <div class="column is-4">
-                    <label class="label is-small">Cup Reject</label>
-                    <input class="input is-small" type="number" name="cup_rjct" placeholder="0">
-                </div>
+                <div class="column is-4"><label class="label is-size-7">M-GE</label><input class="input is-small" type="number"></div>
+                <div class="column is-4"><label class="label is-size-7">M-AR</label><input class="input is-small" type="number"></div>
+                <div class="column is-4"><label class="label is-size-7">M-CO</label><input class="input is-small" type="number"></div>
+                <div class="column is-4"><label class="label is-size-7">M-MA</label><input class="input is-small" type="number"></div>
+                <div class="column is-4"><label class="label is-size-7">M-RE</label><input class="input is-small" type="number"></div>
+                <div class="column is-4"><label class="label is-size-7">UHT</label><input class="input is-small" type="number"></div>
+                <div class="column is-12"><p class="is-size-7"><strong>SYRUP REQUEST (.Btl / %)</strong></p></div>
+                <div class="column is-4"><input class="input is-small" type="number" placeholder="FL CAR"></div>
+                <div class="column is-4"><input class="input is-small" type="number" placeholder="FL BSC"></div>
+                <div class="column is-4"><input class="input is-small" type="number" placeholder="FL IRS"></div>
+                <div class="column is-12"><p class="is-size-7"><strong>WASTE STOCK (.Gr)</strong></p></div>
+                <div class="column is-6"><input class="input is-small" type="number" placeholder="M-GE S1"></div>
+                <div class="column is-6"><input class="input is-small" type="number" placeholder="M-GE S2"></div>
             </div>
         </div>
 
-        <!-- 4. KEUANGAN (Hanya muncul saat CEK OUT) -->
-        <div id="section-finance" class="form-section">
-            <p class="section-title">Laporan Keuangan [C]</p>
+        <!-- SUB LAPORAN KEUANGAN [C] (image_566614.png) -->
+        <div id="sec-c" class="form-section">
+            <p class="section-title">LAPORAN KEUANGAN [C]</p>
             <div class="field">
-                <label class="label is-small">Pengeluaran [OUT] (Nominal)</label>
-                <input class="input is-small" type="number" name="finance_out" placeholder="Rp 0">
+                <label class="label is-size-7">SALDO AWAL KASIR (Office)</label>
+                <input class="input is-small" type="number" placeholder="Rp 200.000">
             </div>
             <div class="field">
-                <label class="label is-small">Cash Aktual (Uang di Wallet)</label>
-                <input class="input is-small" type="number" name="finance_cash" placeholder="Rp 0" style="background-color: #fffde7;">
+                <label class="label is-size-7">CASH AKTUAL (Uang di Wallet)</label>
+                <input class="input is-small" type="number" placeholder="Rp" style="background-color: #fff9c4;">
+            </div>
+            <div class="field">
+                <label class="label is-size-7">CATATAN / NOTES</label>
+                <textarea class="textarea is-small" placeholder="Tambahkan catatan..."></textarea>
             </div>
         </div>
 
         <div class="sticky-footer">
-            <button type="submit" class="button is-primary is-fullwidth has-text-weight-bold">SIMPAN DATA KE SPREADSHEET</button>
+            <button type="submit" class="button is-primary is-fullwidth">KIRIM KE GOOGLE SHEETS</button>
         </div>
     </form>
 
     <script>
-        // Logika Update Station Berdasarkan Regional
-        function updateStation() {
-            const reg = document.getElementById('regional').value;
-            const st = document.getElementById('station');
-            st.innerHTML = '<option value="">- Pilih Station -</option>';
-            
-            let options = [];
-            if (reg === "Banjarbaru") {
-                options = ["Station 1", "Station 2", "Station 3", "Station 4", "Station 5", "Station 6", "Station 7", "Station 8", "Station Heritage"];
-            } else if (reg === "Banjarmasin") {
-                options = ["Station 1", "Station 2", "Station 3", "Station 4", "Station 5", "Station 6", "Station 7", "Station 8"];
-            } else if (reg === "Martapura") {
-                options = ["Station 1", "Station 2", "Station 3", "Station 4", "Station 5"];
-            }
-
-            options.forEach(item => {
-                let opt = document.createElement("option");
-                opt.value = item; opt.innerHTML = item;
-                st.appendChild(opt);
-            });
-        }
-
-        // Logika Menampilkan/Menyembunyikan Bagian Form
-        function toggleSections() {
-            const kat = document.getElementById('kategori').value;
-            const sSales = document.getElementById('section-sales');
-            const sFinance = document.getElementById('section-finance');
-
-            if (kat === "CEK OUT") {
-                sSales.style.display = "block";
-                sFinance.style.display = "block";
-            } else {
-                sSales.style.display = "none";
-                sFinance.style.display = "none";
-            }
-        }
-
-        // Jalankan saat pertama kali buka
-        toggleSections();
-
-        // Handle Submit (Placeholder)
-        document.getElementById('feelingForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Form siap dikirim! Langkah selanjutnya adalah menghubungkan ke sel kuning di Google Sheets Anda.');
+        const menus = ["OUR FEELING", "BE CAREFEELS", "HAPPY FEALS", "CHOCOFEELS", "GREENFEELS", "RED DEVEELS", "PEACE FUELS", "RUSHFEELS", "NUTFEELS", "VANFEELS", "MOCCAFEELS", "BLACKFEELS"];
+        const menuContainer = document.getElementById('menu-list');
+        
+        menus.forEach(m => {
+            const div = document.createElement('div');
+            div.className = 'grid-row';
+            div.innerHTML = `
+                <div style="font-size: 0.65rem;">${m}</div>
+                <input class="input is-small" type="number" placeholder="0">
+                <input class="input is-small" type="number" placeholder="0">
+                <input class="input is-small" type="number" placeholder="0">
+                <input class="input is-small" type="number" placeholder="0">
+            `;
+            menuContainer.appendChild(div);
         });
+
+        function updateSt() {
+            const r = document.getElementById('reg').value;
+            const s = document.getElementById('st');
+            s.innerHTML = "";
+            let opts = r === "Banjarbaru" ? ["St 1","St 2","St 3","St 4","St 5","St 6","St 7","St 8","Heritage"] : 
+                       r === "Banjarmasin" ? ["St 1","St 2","St 3","St 4","St 5","St 6","St 7","St 8"] : ["St 1","St 2","St 3","St 4","St 5"];
+            opts.forEach(o => { let el = document.createElement("option"); el.value=o; el.text=o; s.appendChild(el); });
+        }
+
+        function toggleSec() {
+            const k = document.getElementById('kat').value;
+            document.getElementById('sec-a').style.display = k === "CEK OUT" ? "block" : "none";
+            document.getElementById('sec-c').style.display = k === "CEK OUT" ? "block" : "none";
+        }
+        toggleSec();
     </script>
 </body>
 </html>

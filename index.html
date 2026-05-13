@@ -57,7 +57,23 @@
             </div>
         </div>
 
-        <!-- 2. GRAMASI & BAHAN BAKU [B] (SELALU TAMPIL) -->
+        <!-- 2. PENJUALAN PILOT [A] (Dipindah ke atas Bagian B, Hanya tampil saat Cek Out) -->
+        <div id="sec-a" class="form-section">
+            <p class="section-title">PENJUALAN PILOT [A]</p>
+            <div class="grid-5-col grid-header"><div>MENU</div><div>CUP CS</div><div>CUP QR</div><div>TML CS</div><div>TML QR</div></div>
+            <div id="menu-list"></div>
+
+            <p class="is-size-7 mt-4"><strong>ADD ON & PENGELUARAN [OUT]</strong></p>
+            <div class="columns is-mobile is-multiline mt-1">
+                <div class="column is-4"><input class="input is-small" type="number" placeholder="Espr A"></div>
+                <div class="column is-4"><input class="input is-small" type="number" placeholder="Espr B"></div>
+                <div class="column is-4"><input class="input is-small" type="number" placeholder="Cup+Ice"></div>
+                <div class="column is-6"><input class="input is-small" type="text" placeholder="Item Keluar"></div>
+                <div class="column is-6"><input class="input is-small highlight-input" type="number" placeholder="Rp. Nominal Out"></div>
+            </div>
+        </div>
+
+        <!-- 3. GRAMASI & BAHAN BAKU [B] (SELALU TAMPIL) -->
         <div id="sec-b" class="form-section">
             <p class="section-title">LAPORAN BAHAN BAKU [B]</p>
             
@@ -87,22 +103,6 @@
             </div>
         </div>
 
-        <!-- 3. PENJUALAN PILOT [A] (Hanya tampil saat Cek Out) -->
-        <div id="sec-a" class="form-section">
-            <p class="section-title">PENJUALAN PILOT [A]</p>
-            <div class="grid-5-col grid-header"><div>MENU</div><div>CUP CS</div><div>CUP QR</div><div>TML CS</div><div>TML QR</div></div>
-            <div id="menu-list"></div>
-
-            <p class="is-size-7 mt-4"><strong>ADD ON & PENGELUARAN [OUT]</strong></p>
-            <div class="columns is-mobile is-multiline mt-1">
-                <div class="column is-4"><input class="input is-small" type="number" placeholder="Espr A"></div>
-                <div class="column is-4"><input class="input is-small" type="number" placeholder="Espr B"></div>
-                <div class="column is-4"><input class="input is-small" type="number" placeholder="Cup+Ice"></div>
-                <div class="column is-6"><input class="input is-small" type="text" placeholder="Item Keluar"></div>
-                <div class="column is-6"><input class="input is-small highlight-input" type="number" placeholder="Rp. Nominal Out"></div>
-            </div>
-        </div>
-
         <!-- 4. LAPORAN KEUANGAN [C] (Hanya tampil saat Cek Out) -->
         <div id="sec-c" class="form-section">
             <p class="section-title">LAPORAN KEUANGAN [C]</p>
@@ -110,9 +110,16 @@
                 <label class="label is-size-7">SALDO AWAL KASIR (Office)</label>
                 <input class="input is-small" type="number" placeholder="Rp 200.000">
             </div>
+            
+            <!-- TAMBAHAN BARU: CASH TO CASHIER -->
+            <div class="field">
+                <label class="label is-size-7">CASH TO CASHIER (Besok)</label>
+                <input class="input is-small highlight-input" type="number" placeholder="Rp 0">
+            </div>
+            
             <div class="field">
                 <label class="label is-size-7">CASH AKTUAL (Uang di Wallet)</label>
-                <input class="input is-small highlight-input" type="number" placeholder="Rp">
+                <input class="input is-small highlight-input" type="number" placeholder="Rp 0">
             </div>
             <div class="field">
                 <label class="label is-size-7">CATATAN / NOTES</label>
@@ -133,21 +140,21 @@
             menuContainer.innerHTML += `<div class="grid-5-col"><div style="font-size: 0.65rem;">${m}</div><input class="input is-small" type="number"><input class="input is-small" type="number"><input class="input is-small" type="number"><input class="input is-small" type="number"></div>`;
         });
 
-        // 2. Generate Daftar Gramasi Sesuai Gambar 1
+        // 2. Generate Daftar Gramasi
         const gramasiList = ["M-GE", "M-AR", "M-CO", "M-MA", "M-RE", "UHT", "ESPRESSO", "KR-G (%)", "KR-S (%)", "S-CAR (.Btl)", "AREN (.Pck)", "MILO (.Pcs)", "ES BATU (%)", "CLEO (%)"];
         const gramasiContainer = document.getElementById('gramasi-list');
         gramasiList.forEach(g => {
             gramasiContainer.innerHTML += `<div class="column is-4-tablet is-6-mobile py-1"><label class="label is-size-7 mb-1">${g}</label><input class="input is-small" type="number"></div>`;
         });
 
-        // 3. Generate Daftar Syrup Sesuai Gambar 2
+        // 3. Generate Daftar Syrup
         const syrupList = ["FL. CAR", "FL. BSC", "FL. IRS", "FL. HAZ", "FL. VAN", "FL. PIS"];
         const syrupContainer = document.getElementById('syrup-list');
         syrupList.forEach(s => {
             syrupContainer.innerHTML += `<div class="grid-3-col"><div style="font-size: 0.7rem;">${s}</div><input class="input is-small" type="number" placeholder=".Btl"><input class="input is-small" type="number" placeholder="%"></div>`;
         });
 
-        // 4. Generate Daftar Waste Sesuai Gambar 3
+        // 4. Generate Daftar Waste
         const wasteList = ["M-GE", "M-AR", "M-CO", "M-MA", "M-RE", "KR-G", "KR-S", "UHT", ".SPRO"];
         const wasteContainer = document.getElementById('waste-list');
         wasteList.forEach(w => {

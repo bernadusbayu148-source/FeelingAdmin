@@ -4,143 +4,200 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feeling Admin - Input Penjualan</title>
-    <!-- Library desain agar tampilan kembali modern -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <style>
-        body { background-color: #f4f4f4; padding: 15px; font-family: sans-serif; }
-        .form-section { background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .section-title { border-bottom: 2px solid #eee; margin-bottom: 15px; padding-bottom: 5px; color: #4a4a4a; font-weight: bold; text-transform: uppercase; font-size: 0.85rem; }
-        .menu-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; align-items: center; margin-bottom: 10px; }
-        .sticky-footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; border-top: 2px solid #eee; z-index: 10; }
+        body { background-color: #f4f4f4; padding: 10px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding-bottom: 80px; }
+        .form-section { background: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .section-title { border-bottom: 2px solid #3273dc; margin-bottom: 15px; padding-bottom: 5px; color: #363636; font-weight: bold; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+        .menu-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 8px; align-items: center; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #f0f0f0; }
+        .sticky-footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 12px; border-top: 1px solid #ddd; z-index: 100; }
+        label.is-small { font-size: 0.7rem; color: #7a7a7a; text-transform: uppercase; }
+        .header-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 8px; font-weight: bold; font-size: 0.65rem; color: #999; margin-bottom: 5px; }
     </style>
 </head>
 <body>
 
-    <h2 class="title is-4 has-text-centered">Laporan Daily Station</h2>
+    <h1 class="title is-5 has-text-centered mb-4">FEELING DAILY REPORT</h1>
 
-    <!-- BAGIAN 1: INFO OPERASIONAL (VERSI TERBARU) -->
-    <div class="form-section">
-        <p class="section-title">INFO OPERASIONAL</p>
-        <div class="columns is-mobile is-multiline">
-            <div class="column is-6">
-                <label class="label is-small">Regional</label>
-                <div class="select is-fullwidth is-small">
-                    <select id="regional" onchange="updateStation()">
-                        <option value="">Pilih Regional</option>
-                        <option value="Banjarbaru">Banjarbaru</option>
-                        <option value="Banjarmasin">Banjarmasin</option>
-                        <option value="Martapura">Martapura</option>
-                    </select>
+    <form id="feelingForm">
+        <!-- 1. INFO OPERASIONAL -->
+        <div class="form-section">
+            <p class="section-title">Info Operasional</p>
+            <div class="columns is-mobile is-multiline">
+                <div class="column is-6">
+                    <label class="label is-small">Regional</label>
+                    <div class="select is-fullwidth is-small">
+                        <select id="regional" name="regional" onchange="updateStation()" required>
+                            <option value="">Pilih...</option>
+                            <option value="Banjarbaru">Banjarbaru</option>
+                            <option value="Banjarmasin">Banjarmasin</option>
+                            <option value="Martapura">Martapura</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <label class="label is-small">Station</label>
+                    <div class="select is-fullwidth is-small">
+                        <select id="station" name="station" required>
+                            <option value="">- Pilih Regional -</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <label class="label is-small">Nama Pilot</label>
+                    <input class="input is-small" type="text" name="pilot" placeholder="..." required>
+                </div>
+                <div class="column is-6">
+                    <label class="label is-small">Staff Office</label>
+                    <input class="input is-small" type="text" name="office" placeholder="..." required>
+                </div>
+                <div class="column is-6">
+                    <label class="label is-small">Shift</label>
+                    <div class="select is-fullwidth is-small">
+                        <select name="shift">
+                            <option>Shift 1</option>
+                            <option>Shift 2</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <label class="label is-small">Kategori Input</label>
+                    <div class="select is-fullwidth is-small">
+                        <select id="kategori" name="kategori" onchange="toggleSections()">
+                            <option value="CEK IN">CEK IN</option>
+                            <option value="SD-1">SD-1</option>
+                            <option value="SD-2">SD-2</option>
+                            <option value="SD-3">SD-3</option>
+                            <option value="CEK OUT">CEK OUT</option>
+                        </select>
+                    </div>
                 </div>
             </div>
-            <div class="column is-6">
-                <label class="label is-small">Station</label>
-                <div class="select is-fullwidth is-small">
-                    <select id="station"><option value="">- Pilih -</option></select>
+        </div>
+
+        <!-- 2. DATA PENJUALAN (Hanya muncul saat CEK OUT) -->
+        <div id="section-sales" class="form-section">
+            <p class="section-title">Penjualan Menu [A]</p>
+            <div class="header-grid">
+                <div>MENU NAME</div><div>CASH</div><div>QRIS</div>
+            </div>
+            
+            <!-- Daftar Menu Lengkap -->
+            <div id="menu-container">
+                <script>
+                    const menus = ["OUR FEELING", "BE CAREFEELS", "HAPPY FEALS", "CHOCOFEELS", "GREENFEELS", "RED DEVEELS", "PEACE FUELS", "RUSHFEELS", "NUTFEELS", "VANFEELS", "MOCCAFEELS", "BLACKFEELS"];
+                    menus.forEach(m => {
+                        document.write(`
+                            <div class="menu-grid">
+                                <div style="font-size: 0.75rem; font-weight: 500;">${m}</div>
+                                <input class="input is-small" type="number" name="sales_cash_${m.replace(/ /g,'_')}" placeholder="0">
+                                <input class="input is-small" type="number" name="sales_qris_${m.replace(/ /g,'_')}" placeholder="0">
+                            </div>
+                        `);
+                    });
+                </script>
+            </div>
+        </div>
+
+        <!-- 3. BAHAN BAKU & CUP [B] -->
+        <div class="form-section">
+            <p class="section-title">Stok & Bahan Baku [B]</p>
+            <div class="columns is-mobile is-multiline">
+                <div class="column is-6">
+                    <label class="label is-small">M-GE (Gram)</label>
+                    <input class="input is-small" type="number" name="stok_mge" placeholder="0">
+                </div>
+                <div class="column is-6">
+                    <label class="label is-small">M-AR (Gram)</label>
+                    <input class="input is-small" type="number" name="stok_mar" placeholder="0">
+                </div>
+                <div class="column is-6">
+                    <label class="label is-small">M-CO (Gram)</label>
+                    <input class="input is-small" type="number" name="stok_mco" placeholder="0">
+                </div>
+                <div class="column is-6">
+                    <label class="label is-small">ESPRESSO (mL)</label>
+                    <input class="input is-small" type="number" name="stok_spro" placeholder="0">
+                </div>
+                <div class="column is-4">
+                    <label class="label is-small">Cup IN/OT</label>
+                    <input class="input is-small" type="number" name="cup_qty" placeholder="0">
+                </div>
+                <div class="column is-4">
+                    <label class="label is-small">Cup Kembali</label>
+                    <input class="input is-small" type="number" name="cup_back" placeholder="0">
+                </div>
+                <div class="column is-4">
+                    <label class="label is-small">Cup Reject</label>
+                    <input class="input is-small" type="number" name="cup_rjct" placeholder="0">
                 </div>
             </div>
-            <div class="column is-6">
-                <label class="label is-small">Nama Pilot</label>
-                <input class="input is-small" type="text" placeholder="Nama Pilot">
-            </div>
-            <div class="column is-6">
-                <label class="label is-small">Staff Office</label>
-                <input class="input is-small" type="text" placeholder="Nama Office">
-            </div>
-            <div class="column is-6">
-                <label class="label is-small">Shift</label>
-                <div class="select is-fullwidth is-small">
-                    <select id="shift">
-                        <option>Shift 1</option>
-                        <option>Shift 2</option>
-                    </select>
-                </div>
-            </div>
-            <div class="column is-6">
-                <label class="label is-small">Kategori Input</label>
-                <div class="select is-fullwidth is-small">
-                    <select id="kategori">
-                        <option>CEK IN</option>
-                        <option>SD-1</option>
-                        <option>SD-2</option>
-                        <option>SD-3</option>
-                        <option>CEK OUT</option>
-                    </select>
-                </div>
-            </div>
         </div>
-    </div>
 
-    <!-- BAGIAN 2: PENJUALAN MENU (MUNCUL JIKA CEK OUT) -->
-    <div class="form-section">
-        <p class="section-title">RINCIAN PENJUALAN PILOT [A]</p>
-        <div class="menu-grid has-text-grey is-size-7">
-            <div>MENU</div><div>CASH</div><div>QRIS</div>
+        <!-- 4. KEUANGAN (Hanya muncul saat CEK OUT) -->
+        <div id="section-finance" class="form-section">
+            <p class="section-title">Laporan Keuangan [C]</p>
+            <div class="field">
+                <label class="label is-small">Pengeluaran [OUT] (Nominal)</label>
+                <input class="input is-small" type="number" name="finance_out" placeholder="Rp 0">
+            </div>
+            <div class="field">
+                <label class="label is-small">Cash Aktual (Uang di Wallet)</label>
+                <input class="input is-small" type="number" name="finance_cash" placeholder="Rp 0" style="background-color: #fffde7;">
+            </div>
         </div>
-        <!-- Contoh beberapa menu -->
-        <div class="menu-grid">
-            <div class="is-size-7">OUR FEELING</div>
-            <input class="input is-small" type="number" placeholder="0">
-            <input class="input is-small" type="number" placeholder="0">
-        </div>
-        <div class="menu-grid">
-            <div class="is-size-7">BE CAREFEELS</div>
-            <input class="input is-small" type="number" placeholder="0">
-            <input class="input is-small" type="number" placeholder="0">
-        </div>
-        <div class="menu-grid">
-            <div class="is-size-7">HAPPY FEALS</div>
-            <input class="input is-small" type="number" placeholder="0">
-            <input class="input is-small" type="number" placeholder="0">
-        </div>
-    </div>
 
-    <!-- BAGIAN 3: STOK BAHAN BAKU [B] -->
-    <div class="form-section" style="margin-bottom: 80px;">
-        <p class="section-title">BAHAN BAKU & CUP [B]</p>
-        <div class="columns is-mobile is-multiline">
-            <div class="column is-6">
-                <label class="label is-small">M-GE (Gram)</label>
-                <input class="input is-small" type="number" placeholder="Gram">
-            </div>
-            <div class="column is-6">
-                <label class="label is-small">M-AR (Gram)</label>
-                <input class="input is-small" type="number" placeholder="Gram">
-            </div>
-            <div class="column is-6">
-                <label class="label is-small">Cup Kembali</label>
-                <input class="input is-small" type="number" placeholder="Qty">
-            </div>
-            <div class="column is-6">
-                <label class="label is-small">Cup Reject</label>
-                <input class="input is-small" type="number" placeholder="Qty">
-            </div>
+        <div class="sticky-footer">
+            <button type="submit" class="button is-primary is-fullwidth has-text-weight-bold">SIMPAN DATA KE SPREADSHEET</button>
         </div>
-    </div>
-
-    <div class="sticky-footer">
-        <button class="button is-primary is-fullwidth">SIMPAN DATA</button>
-    </div>
+    </form>
 
     <script>
-    function updateStation() {
-        const reg = document.getElementById('regional').value;
-        const st = document.getElementById('station');
-        st.innerHTML = "";
-        let options = [];
-        if (reg === "Banjarbaru") {
-            options = ["Station 1", "Station 2", "Station 3", "Station 4", "Station 5", "Station 6", "Station 7", "Station 8", "Station Heritage"];
-        } else if (reg === "Banjarmasin") {
-            options = ["Station 1", "Station 2", "Station 3", "Station 4", "Station 5", "Station 6", "Station 7", "Station 8"];
-        } else if (reg === "Martapura") {
-            options = ["Station 1", "Station 2", "Station 3", "Station 4", "Station 5"];
+        // Logika Update Station Berdasarkan Regional
+        function updateStation() {
+            const reg = document.getElementById('regional').value;
+            const st = document.getElementById('station');
+            st.innerHTML = '<option value="">- Pilih Station -</option>';
+            
+            let options = [];
+            if (reg === "Banjarbaru") {
+                options = ["Station 1", "Station 2", "Station 3", "Station 4", "Station 5", "Station 6", "Station 7", "Station 8", "Station Heritage"];
+            } else if (reg === "Banjarmasin") {
+                options = ["Station 1", "Station 2", "Station 3", "Station 4", "Station 5", "Station 6", "Station 7", "Station 8"];
+            } else if (reg === "Martapura") {
+                options = ["Station 1", "Station 2", "Station 3", "Station 4", "Station 5"];
+            }
+
+            options.forEach(item => {
+                let opt = document.createElement("option");
+                opt.value = item; opt.innerHTML = item;
+                st.appendChild(opt);
+            });
         }
-        options.forEach(item => {
-            let opt = document.createElement("option");
-            opt.value = item; opt.innerHTML = item;
-            st.appendChild(opt);
+
+        // Logika Menampilkan/Menyembunyikan Bagian Form
+        function toggleSections() {
+            const kat = document.getElementById('kategori').value;
+            const sSales = document.getElementById('section-sales');
+            const sFinance = document.getElementById('section-finance');
+
+            if (kat === "CEK OUT") {
+                sSales.style.display = "block";
+                sFinance.style.display = "block";
+            } else {
+                sSales.style.display = "none";
+                sFinance.style.display = "none";
+            }
+        }
+
+        // Jalankan saat pertama kali buka
+        toggleSections();
+
+        // Handle Submit (Placeholder)
+        document.getElementById('feelingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Form siap dikirim! Langkah selanjutnya adalah menghubungkan ke sel kuning di Google Sheets Anda.');
         });
-    }
     </script>
 </body>
 </html>

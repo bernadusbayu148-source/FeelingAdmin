@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feeling Admin - Full Input</title>
+    <title>Feeling Admin - Smart Cup System</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <style>
         body { background-color: #f0f2f5; padding: 10px; padding-bottom: 90px; }
@@ -12,7 +12,7 @@
         .grid-header { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 5px; font-size: 0.6rem; font-weight: bold; text-align: center; color: #888; }
         .grid-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 5px; align-items: center; margin-bottom: 8px; }
         .sticky-footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; border-top: 1px solid #ddd; z-index: 100; }
-        input.is-small { padding: 5px; font-size: 0.75rem; }
+        .highlight-input { background-color: #fff9c4 !important; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -20,7 +20,7 @@
     <h1 class="title is-5 has-text-centered">FEELING DAILY SYSTEM</h1>
 
     <form id="mainForm">
-        <!-- OPERASIONAL (Dinamis sesuai perbaikan sebelumnya) -->
+        <!-- INFO OPERASIONAL -->
         <div class="form-section">
             <p class="section-title">INFO OPERASIONAL</p>
             <div class="columns is-mobile is-multiline">
@@ -30,72 +30,45 @@
                 <div class="column is-6"><label class="label is-size-7">Station</label>
                     <div class="select is-fullwidth is-small"><select id="st"><option>-</option></select></div>
                 </div>
-                <div class="column is-4"><label class="label is-size-7">Pilot</label><input class="input is-small" type="text" placeholder="Nama"></div>
-                <div class="column is-4"><label class="label is-size-7">Office</label><input class="input is-small" type="text" placeholder="Nama"></div>
-                <div class="column is-4"><label class="label is-size-7">Kategori</label>
-                    <div class="select is-fullwidth is-small"><select id="kat" onchange="toggleSec()"><option>CEK IN</option><option>SD-1</option><option>SD-2</option><option>SD-3</option><option>CEK OUT</option></select></div>
+                <div class="column is-6"><label class="label is-size-7">Kategori Input</label>
+                    <div class="select is-fullwidth is-small">
+                        <select id="kat" onchange="toggleSec()">
+                            <option value="CEK IN">CEK IN</option>
+                            <option value="SD-1">SD-1</option>
+                            <option value="SD-2">SD-2</option>
+                            <option value="SD-3">SD-3</option>
+                            <option value="CEK OUT">CEK OUT</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <label class="label is-size-7" id="label-cup">Jumlah Cup (Awal)</label>
+                    <input class="input is-small highlight-input" type="number" id="input-cup" placeholder="0">
                 </div>
             </div>
         </div>
 
-        <!-- SUB LAPORAN PENJUALAN PILOT [A] (image_566675.png) -->
+        <!-- PENJUALAN PILOT [A] (Hanya Cek Out) -->
         <div id="sec-a" class="form-section">
             <p class="section-title">PENJUALAN PILOT [A]</p>
             <div class="grid-header"><div>MENU</div><div>CUP CS</div><div>CUP QR</div><div>TML CS</div><div>TML QR</div></div>
             <hr style="margin: 5px 0;">
-            <div id="menu-list">
-                <!-- Menu akan di-generate via JS -->
-            </div>
-            
-            <p class="is-size-7 mt-3"><strong>ADD ON & PENGELUARAN</strong></p>
-            <div class="columns is-mobile is-multiline mt-1">
-                <div class="column is-4"><input class="input is-small" type="number" placeholder="Espr A"></div>
-                <div class="column is-4"><input class="input is-small" type="number" placeholder="Espr B"></div>
-                <div class="column is-4"><input class="input is-small" type="number" placeholder="Cup+Ice"></div>
-                <div class="column is-6"><input class="input is-small" type="text" placeholder="Item Keluar"></div>
-                <div class="column is-6"><input class="input is-small" type="number" placeholder="Nominal Out"></div>
-            </div>
+            <div id="menu-list"></div>
         </div>
 
-        <!-- SUB LAPORAN BAHAN BAKU & CUP [B] (image_566650.png) -->
+        <!-- BAHAN BAKU [B] -->
         <div id="sec-b" class="form-section">
-            <p class="section-title">BAHAN BAKU & STOCK [B]</p>
+            <p class="section-title">GRAMASI BAHAN BAKU [B]</p>
             <div class="columns is-mobile is-multiline">
                 <div class="column is-4"><label class="label is-size-7">M-GE</label><input class="input is-small" type="number"></div>
                 <div class="column is-4"><label class="label is-size-7">M-AR</label><input class="input is-small" type="number"></div>
                 <div class="column is-4"><label class="label is-size-7">M-CO</label><input class="input is-small" type="number"></div>
-                <div class="column is-4"><label class="label is-size-7">M-MA</label><input class="input is-small" type="number"></div>
-                <div class="column is-4"><label class="label is-size-7">M-RE</label><input class="input is-small" type="number"></div>
-                <div class="column is-4"><label class="label is-size-7">UHT</label><input class="input is-small" type="number"></div>
-                <div class="column is-12"><p class="is-size-7"><strong>SYRUP REQUEST (.Btl / %)</strong></p></div>
-                <div class="column is-4"><input class="input is-small" type="number" placeholder="FL CAR"></div>
-                <div class="column is-4"><input class="input is-small" type="number" placeholder="FL BSC"></div>
-                <div class="column is-4"><input class="input is-small" type="number" placeholder="FL IRS"></div>
-                <div class="column is-12"><p class="is-size-7"><strong>WASTE STOCK (.Gr)</strong></p></div>
-                <div class="column is-6"><input class="input is-small" type="number" placeholder="M-GE S1"></div>
-                <div class="column is-6"><input class="input is-small" type="number" placeholder="M-GE S2"></div>
-            </div>
-        </div>
-
-        <!-- SUB LAPORAN KEUANGAN [C] (image_566614.png) -->
-        <div id="sec-c" class="form-section">
-            <p class="section-title">LAPORAN KEUANGAN [C]</p>
-            <div class="field">
-                <label class="label is-size-7">SALDO AWAL KASIR (Office)</label>
-                <input class="input is-small" type="number" placeholder="Rp 200.000">
-            </div>
-            <div class="field">
-                <label class="label is-size-7">CASH AKTUAL (Uang di Wallet)</label>
-                <input class="input is-small" type="number" placeholder="Rp" style="background-color: #fff9c4;">
-            </div>
-            <div class="field">
-                <label class="label is-size-7">CATATAN / NOTES</label>
-                <textarea class="textarea is-small" placeholder="Tambahkan catatan..."></textarea>
+                <div class="column is-6" id="sec-cup-rjct"><label class="label is-size-7">Cup Free/Reject</label><input class="input is-small" type="number"></div>
             </div>
         </div>
 
         <div class="sticky-footer">
-            <button type="submit" class="button is-primary is-fullwidth">KIRIM KE GOOGLE SHEETS</button>
+            <button type="submit" class="button is-primary is-fullwidth">KIRIM DATA</button>
         </div>
     </form>
 
@@ -106,13 +79,7 @@
         menus.forEach(m => {
             const div = document.createElement('div');
             div.className = 'grid-row';
-            div.innerHTML = `
-                <div style="font-size: 0.65rem;">${m}</div>
-                <input class="input is-small" type="number" placeholder="0">
-                <input class="input is-small" type="number" placeholder="0">
-                <input class="input is-small" type="number" placeholder="0">
-                <input class="input is-small" type="number" placeholder="0">
-            `;
+            div.innerHTML = `<div style="font-size: 0.65rem;">${m}</div><input class="input is-small" type="number"><input class="input is-small" type="number"><input class="input is-small" type="number"><input class="input is-small" type="number">`;
             menuContainer.appendChild(div);
         });
 
@@ -127,8 +94,24 @@
 
         function toggleSec() {
             const k = document.getElementById('kat').value;
-            document.getElementById('sec-a').style.display = k === "CEK OUT" ? "block" : "none";
-            document.getElementById('sec-c').style.display = k === "CEK OUT" ? "block" : "none";
+            const labelCup = document.getElementById('label-cup');
+            const secA = document.getElementById('sec-a');
+            const secRjct = document.getElementById('sec-cup-rjct');
+
+            // Logika Perubahan Label Cup
+            if (k === "CEK IN") {
+                labelCup.innerText = "Jumlah Cup (Awal)";
+                secA.style.display = "none";
+                secRjct.style.display = "none";
+            } else if (k.startsWith("SD")) {
+                labelCup.innerText = "Jumlah Cup (Add On)";
+                secA.style.display = "none";
+                secRjct.style.display = "none";
+            } else if (k === "CEK OUT") {
+                labelCup.innerText = "Jumlah Cup (Kembali)";
+                secA.style.display = "block";
+                secRjct.style.display = "block";
+            }
         }
         toggleSec();
     </script>

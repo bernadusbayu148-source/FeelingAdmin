@@ -1,88 +1,146 @@
-<!-- BAGIAN 1: INFO OPERASIONAL (UPDATED) -->
-<div class="form-section">
-    <p class="section-title">INFO OPERASIONAL</p>
-    
-    <!-- Row 1: Regional & Station -->
-    <div class="columns is-mobile">
-        <div class="column">
-            <label class="label is-small">Regional</label>
-            <div class="select is-fullwidth is-small">
-                <select id="regional" onchange="updateStation()">
-                    <option value="">Pilih Regional</option>
-                    <option value="Banjarbaru">Banjarbaru</option>
-                    <option value="Banjarmasin">Banjarmasin</option>
-                    <option value="Martapura">Martapura</option>
-                </select>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feeling Admin - Input Penjualan</title>
+    <!-- Library desain agar tampilan kembali modern -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <style>
+        body { background-color: #f4f4f4; padding: 15px; font-family: sans-serif; }
+        .form-section { background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .section-title { border-bottom: 2px solid #eee; margin-bottom: 15px; padding-bottom: 5px; color: #4a4a4a; font-weight: bold; text-transform: uppercase; font-size: 0.85rem; }
+        .menu-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; align-items: center; margin-bottom: 10px; }
+        .sticky-footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; border-top: 2px solid #eee; z-index: 10; }
+    </style>
+</head>
+<body>
+
+    <h2 class="title is-4 has-text-centered">Laporan Daily Station</h2>
+
+    <!-- BAGIAN 1: INFO OPERASIONAL (VERSI TERBARU) -->
+    <div class="form-section">
+        <p class="section-title">INFO OPERASIONAL</p>
+        <div class="columns is-mobile is-multiline">
+            <div class="column is-6">
+                <label class="label is-small">Regional</label>
+                <div class="select is-fullwidth is-small">
+                    <select id="regional" onchange="updateStation()">
+                        <option value="">Pilih Regional</option>
+                        <option value="Banjarbaru">Banjarbaru</option>
+                        <option value="Banjarmasin">Banjarmasin</option>
+                        <option value="Martapura">Martapura</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <div class="column">
-            <label class="label is-small">Station</label>
-            <div class="select is-fullwidth is-small">
-                <select id="station">
-                    <option value="">- Pilih -</option>
-                </select>
+            <div class="column is-6">
+                <label class="label is-small">Station</label>
+                <div class="select is-fullwidth is-small">
+                    <select id="station"><option value="">- Pilih -</option></select>
+                </div>
+            </div>
+            <div class="column is-6">
+                <label class="label is-small">Nama Pilot</label>
+                <input class="input is-small" type="text" placeholder="Nama Pilot">
+            </div>
+            <div class="column is-6">
+                <label class="label is-small">Staff Office</label>
+                <input class="input is-small" type="text" placeholder="Nama Office">
+            </div>
+            <div class="column is-6">
+                <label class="label is-small">Shift</label>
+                <div class="select is-fullwidth is-small">
+                    <select id="shift">
+                        <option>Shift 1</option>
+                        <option>Shift 2</option>
+                    </select>
+                </div>
+            </div>
+            <div class="column is-6">
+                <label class="label is-small">Kategori Input</label>
+                <div class="select is-fullwidth is-small">
+                    <select id="kategori">
+                        <option>CEK IN</option>
+                        <option>SD-1</option>
+                        <option>SD-2</option>
+                        <option>SD-3</option>
+                        <option>CEK OUT</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Row 2: Pilot & Office -->
-    <div class="columns is-mobile">
-        <div class="column">
-            <label class="label is-small">Nama Pilot</label>
-            <input class="input is-small" type="text" id="pilot" placeholder="Input manual">
+    <!-- BAGIAN 2: PENJUALAN MENU (MUNCUL JIKA CEK OUT) -->
+    <div class="form-section">
+        <p class="section-title">RINCIAN PENJUALAN PILOT [A]</p>
+        <div class="menu-grid has-text-grey is-size-7">
+            <div>MENU</div><div>CASH</div><div>QRIS</div>
         </div>
-        <div class="column">
-            <label class="label is-small">Staff Office</label>
-            <input class="input is-small" type="text" id="office" placeholder="Input manual">
+        <!-- Contoh beberapa menu -->
+        <div class="menu-grid">
+            <div class="is-size-7">OUR FEELING</div>
+            <input class="input is-small" type="number" placeholder="0">
+            <input class="input is-small" type="number" placeholder="0">
+        </div>
+        <div class="menu-grid">
+            <div class="is-size-7">BE CAREFEELS</div>
+            <input class="input is-small" type="number" placeholder="0">
+            <input class="input is-small" type="number" placeholder="0">
+        </div>
+        <div class="menu-grid">
+            <div class="is-size-7">HAPPY FEALS</div>
+            <input class="input is-small" type="number" placeholder="0">
+            <input class="input is-small" type="number" placeholder="0">
         </div>
     </div>
 
-    <!-- Row 3: Shift & Kategori Input -->
-    <div class="columns is-mobile">
-        <div class="column">
-            <label class="label is-small">Shift</label>
-            <div class="select is-fullwidth is-small">
-                <select id="shift">
-                    <option value="Shift 1">Shift 1</option>
-                    <option value="Shift 2">Shift 2</option>
-                </select>
+    <!-- BAGIAN 3: STOK BAHAN BAKU [B] -->
+    <div class="form-section" style="margin-bottom: 80px;">
+        <p class="section-title">BAHAN BAKU & CUP [B]</p>
+        <div class="columns is-mobile is-multiline">
+            <div class="column is-6">
+                <label class="label is-small">M-GE (Gram)</label>
+                <input class="input is-small" type="number" placeholder="Gram">
             </div>
-        </div>
-        <div class="column">
-            <label class="label is-small">Kategori Input</label>
-            <div class="select is-fullwidth is-small">
-                <select id="kategori">
-                    <option value="CEK IN">CEK IN</option>
-                    <option value="SD-1">SD-1</option>
-                    <option value="SD-2">SD-2</option>
-                    <option value="SD-3">SD-3</option>
-                    <option value="CEK OUT">CEK OUT</option>
-                </select>
+            <div class="column is-6">
+                <label class="label is-small">M-AR (Gram)</label>
+                <input class="input is-small" type="number" placeholder="Gram">
+            </div>
+            <div class="column is-6">
+                <label class="label is-small">Cup Kembali</label>
+                <input class="input is-small" type="number" placeholder="Qty">
+            </div>
+            <div class="column is-6">
+                <label class="label is-small">Cup Reject</label>
+                <input class="input is-small" type="number" placeholder="Qty">
             </div>
         </div>
     </div>
-</div>
 
-<script>
-function updateStation() {
-    const reg = document.getElementById('regional').value;
-    const st = document.getElementById('station');
-    st.innerHTML = ""; // Reset
-    
-    let options = [];
-    if (reg === "Banjarbaru") {
-        options = ["Station 1", "Station 2", "Station 3", "Station 4", "Station 5", "Station 6", "Station 7", "Station 8", "Station Heritage"];
-    } else if (reg === "Banjarmasin") {
-        options = ["Station 1", "Station 2", "Station 3", "Station 4", "Station 5", "Station 6", "Station 7", "Station 8"];
-    } else if (reg === "Martapura") {
-        options = ["Station 1", "Station 2", "Station 3", "Station 4", "Station 5"];
+    <div class="sticky-footer">
+        <button class="button is-primary is-fullwidth">SIMPAN DATA</button>
+    </div>
+
+    <script>
+    function updateStation() {
+        const reg = document.getElementById('regional').value;
+        const st = document.getElementById('station');
+        st.innerHTML = "";
+        let options = [];
+        if (reg === "Banjarbaru") {
+            options = ["Station 1", "Station 2", "Station 3", "Station 4", "Station 5", "Station 6", "Station 7", "Station 8", "Station Heritage"];
+        } else if (reg === "Banjarmasin") {
+            options = ["Station 1", "Station 2", "Station 3", "Station 4", "Station 5", "Station 6", "Station 7", "Station 8"];
+        } else if (reg === "Martapura") {
+            options = ["Station 1", "Station 2", "Station 3", "Station 4", "Station 5"];
+        }
+        options.forEach(item => {
+            let opt = document.createElement("option");
+            opt.value = item; opt.innerHTML = item;
+            st.appendChild(opt);
+        });
     }
-
-    options.forEach(item => {
-        let opt = document.createElement("option");
-        opt.value = item;
-        opt.innerHTML = item;
-        st.appendChild(opt);
-    });
-}
-</script>
+    </script>
+</body>
+</html>

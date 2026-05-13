@@ -3,14 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feeling Admin - Smart Cup System</title>
+    <title>Feeling Admin - Full System</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <style>
         body { background-color: #f0f2f5; padding: 10px; padding-bottom: 90px; }
         .form-section { background: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid #3273dc; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .section-title { font-weight: bold; font-size: 0.8rem; margin-bottom: 10px; color: #3273dc; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-        .grid-header { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 5px; font-size: 0.6rem; font-weight: bold; text-align: center; color: #888; }
-        .grid-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 5px; align-items: center; margin-bottom: 8px; }
+        
+        /* Grid Custom untuk Menu, Syrup & Waste */
+        .grid-5-col { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 5px; align-items: center; margin-bottom: 8px; }
+        .grid-3-col { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 8px; align-items: center; margin-bottom: 6px; }
+        .grid-header { font-size: 0.6rem; font-weight: bold; text-align: center; color: #888; border-bottom: 1px solid #eee; padding-bottom: 4px; margin-bottom: 8px; }
+        
         .sticky-footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; border-top: 1px solid #ddd; z-index: 100; }
         .highlight-input { background-color: #fff9c4 !important; font-weight: bold; }
     </style>
@@ -20,7 +24,7 @@
     <h1 class="title is-5 has-text-centered">FEELING DAILY SYSTEM</h1>
 
     <form id="mainForm">
-        <!-- INFO OPERASIONAL -->
+        <!-- 1. INFO OPERASIONAL -->
         <div class="form-section">
             <p class="section-title">INFO OPERASIONAL</p>
             <div class="columns is-mobile is-multiline">
@@ -29,6 +33,11 @@
                 </div>
                 <div class="column is-6"><label class="label is-size-7">Station</label>
                     <div class="select is-fullwidth is-small"><select id="st"><option>-</option></select></div>
+                </div>
+                <div class="column is-6"><label class="label is-size-7">Nama Pilot</label><input class="input is-small" type="text" placeholder="Nama Pilot"></div>
+                <div class="column is-6"><label class="label is-size-7">Staff Office</label><input class="input is-small" type="text" placeholder="Nama Office"></div>
+                <div class="column is-6"><label class="label is-size-7">Shift</label>
+                    <div class="select is-fullwidth is-small"><select><option>Shift 1</option><option>Shift 2</option></select></div>
                 </div>
                 <div class="column is-6"><label class="label is-size-7">Kategori Input</label>
                     <div class="select is-fullwidth is-small">
@@ -41,78 +50,136 @@
                         </select>
                     </div>
                 </div>
-                <div class="column is-6">
+                <div class="column is-12">
                     <label class="label is-size-7" id="label-cup">Jumlah Cup (Awal)</label>
                     <input class="input is-small highlight-input" type="number" id="input-cup" placeholder="0">
                 </div>
             </div>
         </div>
 
-        <!-- PENJUALAN PILOT [A] (Hanya Cek Out) -->
-        <div id="sec-a" class="form-section">
-            <p class="section-title">PENJUALAN PILOT [A]</p>
-            <div class="grid-header"><div>MENU</div><div>CUP CS</div><div>CUP QR</div><div>TML CS</div><div>TML QR</div></div>
-            <hr style="margin: 5px 0;">
-            <div id="menu-list"></div>
+        <!-- 2. GRAMASI & BAHAN BAKU [B] (SELALU TAMPIL) -->
+        <div id="sec-b" class="form-section">
+            <p class="section-title">LAPORAN BAHAN BAKU [B]</p>
+            
+            <!-- A. Gramasi Dasar -->
+            <p class="is-size-7 has-text-weight-bold mb-2">GRAMASI UTAMA</p>
+            <div class="columns is-mobile is-multiline" id="gramasi-list">
+                <!-- Di-generate via JS agar rapi -->
+            </div>
+
+            <hr style="margin: 15px 0;">
+
+            <!-- B. Syrup Request & Waste Stock (Sejajar) -->
+            <div class="columns">
+                <!-- Bagian Syrup -->
+                <div class="column is-6">
+                    <p class="is-size-7 has-text-weight-bold mb-2">SYRUP REQUEST</p>
+                    <div class="grid-3-col grid-header"><div>FLAVOR</div><div>.Btl</div><div>%</div></div>
+                    <div id="syrup-list"></div>
+                </div>
+                
+                <!-- Bagian Waste -->
+                <div class="column is-6">
+                    <p class="is-size-7 has-text-weight-bold mb-2">WASTE STOCK [.Gr]</p>
+                    <div class="grid-3-col grid-header"><div>ITEM'S</div><div>S1</div><div>S2</div></div>
+                    <div id="waste-list"></div>
+                </div>
+            </div>
         </div>
 
-        <!-- BAHAN BAKU [B] -->
-        <div id="sec-b" class="form-section">
-            <p class="section-title">GRAMASI BAHAN BAKU [B]</p>
-            <div class="columns is-mobile is-multiline">
-                <div class="column is-4"><label class="label is-size-7">M-GE</label><input class="input is-small" type="number"></div>
-                <div class="column is-4"><label class="label is-size-7">M-AR</label><input class="input is-small" type="number"></div>
-                <div class="column is-4"><label class="label is-size-7">M-CO</label><input class="input is-small" type="number"></div>
-                <div class="column is-6" id="sec-cup-rjct"><label class="label is-size-7">Cup Free/Reject</label><input class="input is-small" type="number"></div>
+        <!-- 3. PENJUALAN PILOT [A] (Hanya tampil saat Cek Out) -->
+        <div id="sec-a" class="form-section">
+            <p class="section-title">PENJUALAN PILOT [A]</p>
+            <div class="grid-5-col grid-header"><div>MENU</div><div>CUP CS</div><div>CUP QR</div><div>TML CS</div><div>TML QR</div></div>
+            <div id="menu-list"></div>
+
+            <p class="is-size-7 mt-4"><strong>ADD ON & PENGELUARAN [OUT]</strong></p>
+            <div class="columns is-mobile is-multiline mt-1">
+                <div class="column is-4"><input class="input is-small" type="number" placeholder="Espr A"></div>
+                <div class="column is-4"><input class="input is-small" type="number" placeholder="Espr B"></div>
+                <div class="column is-4"><input class="input is-small" type="number" placeholder="Cup+Ice"></div>
+                <div class="column is-6"><input class="input is-small" type="text" placeholder="Item Keluar"></div>
+                <div class="column is-6"><input class="input is-small highlight-input" type="number" placeholder="Rp. Nominal Out"></div>
+            </div>
+        </div>
+
+        <!-- 4. LAPORAN KEUANGAN [C] (Hanya tampil saat Cek Out) -->
+        <div id="sec-c" class="form-section">
+            <p class="section-title">LAPORAN KEUANGAN [C]</p>
+            <div class="field">
+                <label class="label is-size-7">SALDO AWAL KASIR (Office)</label>
+                <input class="input is-small" type="number" placeholder="Rp 200.000">
+            </div>
+            <div class="field">
+                <label class="label is-size-7">CASH AKTUAL (Uang di Wallet)</label>
+                <input class="input is-small highlight-input" type="number" placeholder="Rp">
+            </div>
+            <div class="field">
+                <label class="label is-size-7">CATATAN / NOTES</label>
+                <textarea class="textarea is-small" placeholder="Tulis catatan..."></textarea>
             </div>
         </div>
 
         <div class="sticky-footer">
-            <button type="submit" class="button is-primary is-fullwidth">KIRIM DATA</button>
+            <button type="submit" class="button is-primary is-fullwidth">SIMPAN DATA</button>
         </div>
     </form>
 
     <script>
+        // 1. Generate Daftar Penjualan Menu
         const menus = ["OUR FEELING", "BE CAREFEELS", "HAPPY FEALS", "CHOCOFEELS", "GREENFEELS", "RED DEVEELS", "PEACE FUELS", "RUSHFEELS", "NUTFEELS", "VANFEELS", "MOCCAFEELS", "BLACKFEELS"];
         const menuContainer = document.getElementById('menu-list');
-        
         menus.forEach(m => {
-            const div = document.createElement('div');
-            div.className = 'grid-row';
-            div.innerHTML = `<div style="font-size: 0.65rem;">${m}</div><input class="input is-small" type="number"><input class="input is-small" type="number"><input class="input is-small" type="number"><input class="input is-small" type="number">`;
-            menuContainer.appendChild(div);
+            menuContainer.innerHTML += `<div class="grid-5-col"><div style="font-size: 0.65rem;">${m}</div><input class="input is-small" type="number"><input class="input is-small" type="number"><input class="input is-small" type="number"><input class="input is-small" type="number"></div>`;
         });
 
+        // 2. Generate Daftar Gramasi Sesuai Gambar 1
+        const gramasiList = ["M-GE", "M-AR", "M-CO", "M-MA", "M-RE", "UHT", "ESPRESSO", "KR-G (%)", "KR-S (%)", "S-CAR (.Btl)", "AREN (.Pck)", "MILO (.Pcs)", "ES BATU (%)", "CLEO (%)"];
+        const gramasiContainer = document.getElementById('gramasi-list');
+        gramasiList.forEach(g => {
+            gramasiContainer.innerHTML += `<div class="column is-4-tablet is-6-mobile py-1"><label class="label is-size-7 mb-1">${g}</label><input class="input is-small" type="number"></div>`;
+        });
+
+        // 3. Generate Daftar Syrup Sesuai Gambar 2
+        const syrupList = ["FL. CAR", "FL. BSC", "FL. IRS", "FL. HAZ", "FL. VAN", "FL. PIS"];
+        const syrupContainer = document.getElementById('syrup-list');
+        syrupList.forEach(s => {
+            syrupContainer.innerHTML += `<div class="grid-3-col"><div style="font-size: 0.7rem;">${s}</div><input class="input is-small" type="number" placeholder=".Btl"><input class="input is-small" type="number" placeholder="%"></div>`;
+        });
+
+        // 4. Generate Daftar Waste Sesuai Gambar 3
+        const wasteList = ["M-GE", "M-AR", "M-CO", "M-MA", "M-RE", "KR-G", "KR-S", "UHT", ".SPRO"];
+        const wasteContainer = document.getElementById('waste-list');
+        wasteList.forEach(w => {
+            wasteContainer.innerHTML += `<div class="grid-3-col"><div style="font-size: 0.7rem;">${w}</div><input class="input is-small" type="number" placeholder="S1"><input class="input is-small" type="number" placeholder="S2"></div>`;
+        });
+
+        // Update Station Select
         function updateSt() {
             const r = document.getElementById('reg').value;
             const s = document.getElementById('st');
             s.innerHTML = "";
-            let opts = r === "Banjarbaru" ? ["St 1","St 2","St 3","St 4","St 5","St 6","St 7","St 8","Heritage"] : 
-                       r === "Banjarmasin" ? ["St 1","St 2","St 3","St 4","St 5","St 6","St 7","St 8"] : ["St 1","St 2","St 3","St 4","St 5"];
+            let opts = r === "Banjarbaru" ? ["Station 1","Station 2","Station 3","Station 4","Station 5","Station 6","Station 7","Station 8","Station Heritage"] : 
+                       r === "Banjarmasin" ? ["Station 1","Station 2","Station 3","Station 4","Station 5","Station 6","Station 7","Station 8"] : 
+                       r === "Martapura" ? ["Station 1","Station 2","Station 3","Station 4","Station 5"] : ["- Pilih -"];
             opts.forEach(o => { let el = document.createElement("option"); el.value=o; el.text=o; s.appendChild(el); });
         }
 
+        // Logika Tampil/Sembunyi Bagian [A] dan [C]
         function toggleSec() {
             const k = document.getElementById('kat').value;
             const labelCup = document.getElementById('label-cup');
-            const secA = document.getElementById('sec-a');
-            const secRjct = document.getElementById('sec-cup-rjct');
+            
+            // Ubah judul cup otomatis
+            if (k === "CEK IN") labelCup.innerText = "Jumlah Cup (Awal)";
+            else if (k.startsWith("SD")) labelCup.innerText = "Jumlah Cup (Add On)";
+            else if (k === "CEK OUT") labelCup.innerText = "Jumlah Cup (Kembali / Rjct)";
 
-            // Logika Perubahan Label Cup
-            if (k === "CEK IN") {
-                labelCup.innerText = "Jumlah Cup (Awal)";
-                secA.style.display = "none";
-                secRjct.style.display = "none";
-            } else if (k.startsWith("SD")) {
-                labelCup.innerText = "Jumlah Cup (Add On)";
-                secA.style.display = "none";
-                secRjct.style.display = "none";
-            } else if (k === "CEK OUT") {
-                labelCup.innerText = "Jumlah Cup (Kembali)";
-                secA.style.display = "block";
-                secRjct.style.display = "block";
-            }
+            // Sembunyikan/Tampilkan Penjualan & Keuangan
+            document.getElementById('sec-a').style.display = (k === "CEK OUT") ? "block" : "none";
+            document.getElementById('sec-c').style.display = (k === "CEK OUT") ? "block" : "none";
         }
+        
         toggleSec();
     </script>
 </body>
